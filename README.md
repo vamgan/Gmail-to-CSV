@@ -4,7 +4,7 @@ I personally find Gmail API to be a bit confusing for beginners. The API’s wiz
 
 Therefore, I have created a Python script that does the following:
 1. Scrapes all emails from your mailbox
-2. Exports all emails to CSV file which includes (Sender, Subject, Content)
+2. Exports all emails to CSV file which includes (Sender, Subject, Message)
 3. Email content is formatted using bs4
 
 
