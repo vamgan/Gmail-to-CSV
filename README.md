@@ -10,16 +10,14 @@ Therefore, I have created a Python script that does the following:
 
 ## Installation
 
+Create a project at https://console.developers.google.com/project and save client id, project name and client secret in credentials.json file.
+
 Run the python environment
 ```
-{
-    source env/bin/activate
-}
+source env/bin/activate
 ```
 
 Run scraper.py
 ```
-{
-    python scraper.py
-}
+python scraper.py
 ```
