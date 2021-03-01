@@ -59,6 +59,9 @@ class gmail_func:
                         data += obj['body']['data'] or ''
                     except:
                         print('Error msg id:', msg_id)
+                else:
+                    print(msg_id)
+                    return
                 return data
                 
 
@@ -66,7 +69,7 @@ class gmail_func:
             clean_one = part_data.replace("-","+") # decoding from Base64 to UTF-8
             clean_one = clean_one.replace("_","/") # decoding from Base64 to UTF-8
             clean_two = base64.urlsafe_b64decode(bytes(clean_one, 'UTF-8')) # decoding from Base64 to UTF-8
-            soup = BeautifulSoup(clean_two , "lxml" )
+            soup = BeautifulSoup(clean_two , 'lxml' )
             message_body = soup.text.strip()
             email_dict['Message_body'] = message_body
 
@@ -80,8 +83,8 @@ class gmail_func:
 
     def get_msgids_with_labels(self, label_ids=[]):
         try:
-            response = self.service.users().messages().list(userId = self.user_id, labelIds = label_ids, maxResults = 10).execute()
-
+            response = self.service.users().messages().list(userId = self.user_id, labelIds = label_ids).execute()
+            
             messages = []
             if 'messages' in response:
                 messages.extend(response['messages'])
@@ -89,10 +92,10 @@ class gmail_func:
             while 'nextPageToken' in response:
                 page_token = response['nextPageToken']
 
-                response = self.service.users().messages().list(userId=self.user_id, labelIds=label_ids, pageToken=page_token, maxResults=500).execute()
+                response = self.service.users().messages().list(userId=self.user_id, labelIds=label_ids, pageToken=page_token).execute()
 
                 messages.extend(response['messages'])
-
+                
                 print('... total %d emails on next page [page token: %s], %d listed so far' % (len(response['messages']), page_token, len(messages)))
                 sys.stdout.flush()
 
@@ -115,6 +118,7 @@ class gmail_func:
                 if email_dict is not None:
                     writer.writerow(email_dict)
                     rows += 1
+                    print(rows)
 
                 if rows > 0 and (rows%50) == 0:
                     print('... total %d read so far' % (rows))
